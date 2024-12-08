@@ -9,7 +9,8 @@ use Illuminate\Support\Facades\Validator;
 
 class AuthController extends Controller
 {
-    public function register(Request $request) {
+    public function register(Request $request)
+    {
 //        $validated = $request->validate([
 //            'name' => 'required|string|max:255',
 //            'email' => 'required|string|email|max:255|unique:users',
@@ -46,7 +47,8 @@ class AuthController extends Controller
 
 
 
-    public function login(Request $request) {
+    public function login(Request $request)
+    {
         $validated = Validator::make($request->all(), [
             'email' => 'required|string|email',
             'password' => 'required|string|min:6',
@@ -72,5 +74,16 @@ class AuthController extends Controller
         } catch (\Exception $th) {
             return response()->json(['error' => $th->getMessage()], 403);
         }
+    }
+
+
+
+    public  function logout(Request $request)
+    {
+        $request->user()->tokens()->delete();
+
+        return response()->json([
+            'message' => 'User has been logged out successfully',
+        ], 200);
     }
 }
