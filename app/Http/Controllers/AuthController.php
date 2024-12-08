@@ -43,4 +43,34 @@ class AuthController extends Controller
             return response()->json(['error' => $exception->getMessage()], 403);
         }
     }
+
+
+
+    public function login(Request $request) {
+        $validated = Validator::make($request->all(), [
+            'email' => 'required|string|email',
+            'password' => 'required|string|min:6',
+        ]);
+
+        try {
+            if ($validated->fails()) {
+                return response()->json($validated->errors(), 403);
+            }
+
+            $credentials = ['email' => $request->email, 'password' => $request->password];
+
+            if(!auth()->attempt($credentials)) {
+                return response()->json(['error' => 'Unauthorized'], 401);
+            }
+            $user = User::where('email', $request->email)->firstOrFail();
+            $token = $user->createToken('auth_token')->plainTextToken;
+            return response()->json([
+                'access_token' => $token,
+                'user' => $user,
+            ], 200);
+
+        } catch (\Exception $th) {
+            return response()->json(['error' => $th->getMessage()], 403);
+        }
+    }
 }
