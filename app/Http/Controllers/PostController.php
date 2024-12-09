@@ -43,6 +43,7 @@ class PostController extends Controller
         $validated = Validator::make($request->all(), [
             'title' => 'required|string',
             'content' => 'required|string',
+            'post_id' => 'required|integer',
         ]);
 
         if ($validated->fails()) {
@@ -51,13 +52,14 @@ class PostController extends Controller
 
         try {
             $post_data = Post::find($request->post_id);
-            $post_data->update([
+            $updatePost = $post_data->update([
                 'title' => $request->title,
                 'content' =>  $request->content,
             ]);
 
             return response()->json([
                 'message' => 'Post updated successfully',
+                'updated_post' => $updatePost,
             ], 200);
 
         } catch (\Exception $th) {
