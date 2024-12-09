@@ -69,6 +69,44 @@ class PostController extends Controller
 
 
 
+
+
+
+
+    // Edit a post 2
+    public  function editPost2(Request $request, $post_id)
+    {
+        $validated = Validator::make($request->all(), [
+            'title' => 'required|string',
+            'content' => 'required|string',
+        ]);
+
+        if ($validated->fails()) {
+            return response()->json($validated->errors(), 422);
+        }
+
+        try {
+            $post_data = Post::find($post_id);
+            $updatePost = $post_data->update([
+                'title' => $request->title,
+                'content' =>  $request->content,
+            ]);
+
+            return response()->json([
+                'message' => 'Post updated successfully',
+                'updated_post' => $updatePost,
+            ], 200);
+
+        } catch (\Exception $th) {
+            return response()->json(['error' => $th->getMessage()], 403);
+        }
+    }
+
+
+
+
+
+
     // retrieve all posts
     public function getAllPosts()
     {
@@ -82,5 +120,26 @@ class PostController extends Controller
             return response()->json(['error' => $exception->getMessage()], 403);
         }
     }
+
+
+
+
+
+    // get single post
+    public function getPost($post_id)
+    {
+        try {
+            $post = Post::where('id', $post_id)->first();
+
+            return response()->json([
+                'post' => $post,
+            ], 200);
+
+        } catch (\Exception $th) {
+            return response()->json(['error' => $th->getMessage()], 403);
+        }
+    }
+
+
 
 }

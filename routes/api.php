@@ -25,7 +25,8 @@ Route::post('/login', [AuthController::class, 'login']);
 
 // get all posts no need to authenticate
 Route::post('/all/posts', [PostController::class, 'getAllPosts']);
-
+// get single post no need to authenticate
+Route::post('/single/post/{post_id}', [PostController::class, 'getPost']);
 
 
 Route::middleware('auth:sanctum')->group(function() {
