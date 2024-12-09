@@ -36,4 +36,35 @@ class PostController extends Controller
         }
 
     }
+
+    // Edit a post
+    public  function editPost(Request $request)
+    {
+        $validated = Validator::make($request->all(), [
+            'title' => 'required|string',
+            'content' => 'required|string',
+        ]);
+
+        if ($validated->fails()) {
+            return response()->json($validated->errors(), 422);
+        }
+
+        try {
+            $post_data = Post::find($request->post_id);
+            $post_data->update([
+                'title' => $request->title,
+                'content' =>  $request->content,
+            ]);
+
+            return response()->json([
+                'message' => 'Post updated successfully',
+            ], 200);
+
+        } catch (\Exception $th) {
+            return response()->json(['error' => $th->getMessage()], 403);
+        }
+    }
+
+
+
 }
