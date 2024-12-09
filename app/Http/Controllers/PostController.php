@@ -30,12 +30,15 @@ class PostController extends Controller
                 'message' => 'Post added successfully',
                 'post_data' => $post,
             ], 200);
-
         } catch (\Exception $th) {
             return response()->json(['error' => $th->getMessage()], 403);
         }
-
     }
+
+
+
+
+
 
     // Edit a post
     public  function editPost(Request $request)

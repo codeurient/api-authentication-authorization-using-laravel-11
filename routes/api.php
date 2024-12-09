@@ -1,9 +1,11 @@
 <?php
 
 use App\Http\Controllers\AuthController;
+use App\Http\Controllers\CommentController;
 use App\Http\Controllers\PostController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
+
 
 /*
 |--------------------------------------------------------------------------
@@ -39,4 +41,6 @@ Route::middleware('auth:sanctum')->group(function() {
     Route::post('/edit/post/{post_id}', [PostController::class, 'editPost2']);
     // delete post
     Route::post('/delete/post/{post_id}', [PostController::class, 'deletePost']);
+    // comment
+    Route::post('/comment', [CommentController::class, , 'postComment']);
 });
