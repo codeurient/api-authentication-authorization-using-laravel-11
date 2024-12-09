@@ -31,4 +31,6 @@ Route::middleware('auth:sanctum')->group(function() {
     Route::post('/add/post', [PostController::class, 'addNewPost']);
     // edit approach 1
     Route::post('/edit/post', [PostController::class, 'editPost']);
+    // get all posts
+    Route::post('/all/posts', [PostController::class, 'getAllPosts']);
 });
