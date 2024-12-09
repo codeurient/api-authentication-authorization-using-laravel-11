@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Resources\SinglePostResource;
 use App\Models\Post;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
@@ -132,10 +133,13 @@ class PostController extends Controller
     public function getPost($post_id)
     {
         try {
-            $post = Post::with('user', 'comment', 'likes')->where('id', $post_id)->first();
+            $post = Post::find($post_id);
+            // $post = Post::with('user', 'comment', 'likes')->where('id', $post_id)->first();
+
+            $post_data = new SinglePostResource($post);
 
             return response()->json([
-                'post' => $post,
+                'post' => $post_data,
             ], 200);
 
         } catch (\Exception $th) {
