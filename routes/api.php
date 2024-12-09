@@ -22,15 +22,15 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 
 Route::post('/register', [AuthController::class, 'register']);
 Route::post('/login', [AuthController::class, 'login']);
+// get all posts no need to authenticate
+Route::post('/all/posts', [PostController::class, 'getAllPosts']);
+
 
 
 Route::middleware('auth:sanctum')->group(function() {
     Route::post('/logout', [AuthController::class, 'logout']);
-
     // blog api
     Route::post('/add/post', [PostController::class, 'addNewPost']);
     // edit approach 1
     Route::post('/edit/post', [PostController::class, 'editPost']);
-    // get all posts
-    Route::post('/all/posts', [PostController::class, 'getAllPosts']);
 });
