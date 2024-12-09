@@ -22,4 +22,10 @@ class Post extends Model
     }
 
 
+
+    public function comment()
+    {
+        return $this->hasMany(Comment::class, 'post_id');
+    }
+
 }
