@@ -129,7 +129,7 @@ class PostController extends Controller
     public function getPost($post_id)
     {
         try {
-            $post = Post::where('id', $post_id)->first();
+            $post = Post::with('user')->where('id', $post_id)->first();
 
             return response()->json([
                 'post' => $post,
