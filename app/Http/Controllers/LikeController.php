@@ -20,15 +20,24 @@ class LikeController extends Controller
 
 
         try {
-            $comment = new Like();
-            $comment->post_id = $request->post_id;
-            $comment->user_id = auth()->user()->id;
-            $comment->save();
 
-            return response()->json([
-                'message' => 'Post liked successfully',
-                'comment_data' => $comment,
-            ], 200);
+            $userLikedPostBefore = Like::where('user_id', auth()->user()->id)->where('post_id', $request->post_id)->first();
+
+            if($userLikedPostBefore) {
+                return response()->json(['message' => 'you can not like a post twice'], 422);
+            } else {
+                $comment = new Like();
+                $comment->post_id = $request->post_id;
+                $comment->user_id = auth()->user()->id;
+                $comment->save();
+    
+                return response()->json([
+                    'message' => 'Post liked successfully',
+                    'comment_data' => $comment,
+                ], 200);
+            }
+
+
         } catch (\Exception $th) {
             return response()->json(['error' => $th->getMessage()], 403);
         }
