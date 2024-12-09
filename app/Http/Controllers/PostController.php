@@ -142,4 +142,21 @@ class PostController extends Controller
 
 
 
+
+
+    // delete post
+    public function deletePost(Request $request,$post_id)
+    {
+        try {
+            $post = Post::find($post_id);
+            $post->delete();
+
+            return response()->json([
+                'message' => 'Post deleted successfully',
+            ], 200);
+
+        } catch (\Exception $th) {
+            return response()->json(['error' => $th->getMessage()], 403);
+        }
+    }
 }
